@@ -11,7 +11,7 @@
 <body>
   <!-- Intro video overlay -->
   <div id="intro" aria-label="Intro de bienvenida" role="dialog" aria-modal="true">
-    <video id="introVideo" autoplay muted playsinline webkit-playsinline preload="auto">
+    <video id="introVideo" autoplay muted playsinline>
       <!-- Reemplaza intro.mp4 por tu archivo real o URL -->
       <source src="intro.mp4" type="video/mp4" />
       Tu navegador no soporta el video HTML5.
@@ -61,7 +61,8 @@
     </section>
 
     <footer>
-      &copy; <span id="year"></span> Just Dance Costa Rica. Todos los derechos reservados.
+        
+      © <span id="year"></span> Just Dance Costa Rica. Todos los derechos reservados.
     </footer>
   </main>
 
@@ -79,24 +80,6 @@
       intro.classList.add('hidden');
       main.removeAttribute('aria-hidden');
     }
-
-    // Forzar atributos necesarios para autoplay móvil
-    try {
-      introVideo.muted = true; // requerido por iOS/Android
-      introVideo.playsInline = true; // iOS Safari
-      introVideo.setAttribute('playsinline', '');
-      introVideo.setAttribute('webkit-playsinline', '');
-      introVideo.autoplay = true;
-      introVideo.preload = 'auto';
-    } catch(e) {}
-
-    // Intento inmediato de reproducir en DOM listo
-    requestAnimationFrame(() => {
-      const p = introVideo.play();
-      if (p && typeof p.then === 'function') {
-        p.catch(() => {/* silencioso, se reintenta en canplay */});
-      }
-    });
 
     // Fallback por si el video no puede reproducirse o tarda mucho
     const MAX_WAIT_MS = 10000; // 10s
@@ -116,16 +99,6 @@
           // Si falla el autoplay, mostrar el contenido tras un breve retraso
           setTimeout(showMain, 1500);
         });
-      }
-    });
-
-    // Reintentar si la pestaña se vuelve visible
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        const p = introVideo.play();
-        if (p && typeof p.then === 'function') {
-          p.catch(() => {});
-        }
       }
     });
 
