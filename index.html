@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Just Dance CR</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="description" content="Landing responsive con botones de redes sociales: YouTube, Instagram, Facebook y TikTok." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Intro video overlay -->
+  <div id="intro" aria-label="Intro de bienvenida" role="dialog" aria-modal="true">
+    <video id="introVideo" autoplay muted playsinline>
+      <!-- Reemplaza intro.mp4 por tu archivo real o URL -->
+      <source src="intro.mp4" type="video/mp4" />
+      Tu navegador no soporta el video HTML5.
+    </video>
+    <button id="skipIntro" type="button" aria-label="Saltar introducción">Saltar</button>
+  </div>
+
+  <main class="wrap" role="main" id="mainContent" aria-hidden="true">
+    <header>
+       <img src="logo.png" alt="">
+      <h1 class="text-image">Síguenos en nuestras Redes Sociales</h1>
+      <p class="subtitle text-image">Conecta con nosotros</p>
+    </header>
+
+    <section class="grid" aria-label="Botones de redes sociales">
+      <!-- YouTube -->
+      <div class="card">
+        <a class="btn btn-circle yt" href="https://www.youtube.com/@justdancecostarica5584" target="_blank" rel="noopener noreferrer" aria-label="Ir a YouTube">
+          <img class="icon" src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube" />
+        </a>
+        <div class="label">YouTube</div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="card">
+        <a class="btn btn-circle ig" href="https://www.instagram.com/justdancecr?utm_source=ig_web_button_share_sheet&igsh=MW9jZ3EyMnViY2Z2Ng==" target="_blank" rel="noopener noreferrer" aria-label="Ir a Instagram">
+          <img class="icon" src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram" />
+        </a>
+        <div class="label">Instagram</div>
+      </div>
+
+      <!-- Facebook -->
+      <div class="card">
+        <a class="btn btn-circle fb" href="https://www.facebook.com/JustDanceCR?locale=es_LA" target="_blank" rel="noopener noreferrer" aria-label="Ir a Facebook">
+          <img class="icon" src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook" />
+        </a>
+        <div class="label">Facebook</div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="card">
+        <a class="btn btn-circle tt" href="https://www.tiktok.com/@justdancecr?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" aria-label="Ir a TikTok">
+          <img class="icon" src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok" />
+        </a>
+        <div class="label">TikTok</div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Just Dance Costa Rica. Todos los derechos reservados.
+    </footer>
+  </main>
+
+  <script>
+    // Año dinámico del footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Lógica del intro
+    const intro = document.getElementById('intro');
+    const introVideo = document.getElementById('introVideo');
+    const skipBtn = document.getElementById('skipIntro');
+    const main = document.getElementById('mainContent');
+
+    function showMain() {
+      intro.classList.add('hidden');
+      main.removeAttribute('aria-hidden');
+    }
+
+    // Fallback por si el video no puede reproducirse o tarda mucho
+    const MAX_WAIT_MS = 10000; // 10s
+    let fallbackTimer = setTimeout(showMain, MAX_WAIT_MS);
+
+    // Cuando termine el video, mostrar el contenido
+    introVideo.addEventListener('ended', () => {
+      clearTimeout(fallbackTimer);
+      showMain();
+    });
+
+    // Si se puede reproducir, asegurar el play (algunos navegadores bloquean autoplay si no está mute)
+    introVideo.addEventListener('canplay', () => {
+      const p = introVideo.play();
+      if (p && typeof p.then === 'function') {
+        p.catch(() => {
+          // Si falla el autoplay, mostrar el contenido tras un breve retraso
+          setTimeout(showMain, 1500);
+        });
+      }
+    });
+
+    // Si hay error cargando el video, mostrar el contenido
+    introVideo.addEventListener('error', () => {
+      clearTimeout(fallbackTimer);
+      showMain();
+    });
+
+    // Botón para saltar
+    skipBtn.addEventListener('click', () => {
+      try { introVideo.pause(); } catch(e){}
+      clearTimeout(fallbackTimer);
+      showMain();
+    });
+  </script>
+</body>
+</html>
