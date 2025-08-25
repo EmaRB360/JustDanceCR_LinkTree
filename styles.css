@@ -35,11 +35,10 @@ body{
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  display:grid;
-  place-items:center;
+  min-height: 100vh;
   padding:24px;
 }
-.wrap{ width:min(960px, 100%); }
+.wrap{ width:min(960px, 100%); margin: 0 auto; display: flex; flex-direction: column; min-height: calc(100vh - 48px); }
 header{ text-align:center; margin-bottom:24px; }
 h1{ margin:0 0 8px; font-size:clamp(22px, 3.2vw, 34px); letter-spacing:0.3px; }
 p.subtitle{ margin:0; color:var(--muted); font-size:clamp(14px, 2.2vw, 16px); }
@@ -105,8 +104,8 @@ header img{
 
 /* Circular variant */
 .btn-circle{
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   padding: 0;
   border-radius: 50%;
   display: grid;
@@ -137,10 +136,10 @@ header img{
 .icon{ width:36px; height:36px; flex:0 0 36px; }
 .brand{ display:none; }
 
-footer{ margin-top:22px; text-align:center; color:var(--muted); font-size:13px; }
+footer{ margin-top:auto; text-align:center; color:var(--muted); font-size:13px; }
 
 @media (max-width:420px){
-  .grid{ grid-template-columns: 1fr; }
+  .grid{ grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Intro video overlay */
