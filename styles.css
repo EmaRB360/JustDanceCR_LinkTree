@@ -30,7 +30,7 @@ body{
   background-color: var(--bg);
   background-image:
     linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)),
-    url('fondo.avif');
+    url('fondo.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
